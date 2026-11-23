@@ -13,6 +13,18 @@ jobs:
       - name: Checkout código
         uses: actions/checkout@v4
 
+      - name: Ordenar carpetas automáticamente
+        run: |
+          mkdir -p /tmp/rz/java /tmp/rz/layout
+          find app -name "AndroidManifest.xml" -exec cp {} /tmp/rz/AndroidManifest.xml \;
+          find app -name "activity_main.xml" -exec cp {} /tmp/rz/layout/activity_main.xml \;
+          find app -name "*.java" -exec cp {} /tmp/rz/java/ \;
+          rm -rf app/app
+          mkdir -p app/app/src/main/res/layout app/app/src/main/java/com/htown/redzonepro
+          cp /tmp/rz/AndroidManifest.xml app/app/src/main/AndroidManifest.xml
+          cp /tmp/rz/layout/activity_main.xml app/app/src/main/res/layout/activity_main.xml
+          cp /tmp/rz/java/*.java app/app/src/main/java/com/htown/redzonepro/
+
       - name: Configurar Java 17
         uses: actions/setup-java@v4
         with:
